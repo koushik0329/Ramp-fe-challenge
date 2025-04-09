@@ -18,6 +18,10 @@ export function App() {
     () => paginatedTransactions?.data ?? transactionsByEmployee ?? null,
     [paginatedTransactions, transactionsByEmployee]
   )
+  const showViewMore = useMemo(
+    () => transactions !== null && paginatedTransactions?.nextPage,
+    [transactions, paginatedTransactions]
+  )
 
   const loadAllTransactions = useCallback(async () => {
     transactionsByEmployeeUtils.invalidateData()
@@ -75,7 +79,7 @@ export function App() {
         <div className="RampGrid">
           <Transactions transactions={transactions} />
 
-          {transactions !== null && (
+          {showViewMore && (
             <button
               className="RampButton"
               disabled={paginatedTransactionsUtils.loading}
